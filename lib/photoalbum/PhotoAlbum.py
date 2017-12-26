@@ -32,7 +32,7 @@ def PhotoAlbum():
     display()
 
 def display():
-    global font, fgcolor, imageNum, imageDir, images,imageList, randomMode, reloadMode, delay
+    global font, fgcolor, imageNum, imageDir, images,imageList, sequenceMode, reloadMode, delay
     #clearbg()
     #It'd be nice to know the size of the image to get a center extract
     badge.eink_png(0,0,imageDir + "/" + images[imageNum - 1])
@@ -41,7 +41,7 @@ def display():
     timeStamp=time.time()
 
     if reloadMode is True:
-        if randomMode is True:
+        if sequenceMode is True:
             #stop the doubles
             newImageNum = random.randint(1,numImages)
             while newImageNum != imageNum:
@@ -95,27 +95,27 @@ def btn_b(pressed):
         display()
 
 def btn_up(pressed):
-    global numImages, imageNum, randomMode, reloadMode
+    global numImages, imageNum, sequenceMode, reloadMode
     if pressed:
-        randomMode=True
+        sequenceMode=True
         reloadMode=True #random mode is useless if your not in reload mode
-        newImageNum = random.randint(1,numImages)
-        while newImageNum != imageNum: #let's not choose what we already have
-            newImageNum = random.randint(1,numImages)
+        newImageNum = imageNum+1
+        if newImageNum > numImages:
+            newImageNum= 1
         imageNum = newImageNum
         display()
 
 def btn_down(pressed):
-    global numImages, imageNum, randomMode, reloadMode
+    global numImages, imageNum, sequenceMode, reloadMode
     if pressed:
-        randomMode=False
+        sequenceMode=False
         reloadMode=False
 
 def btn_left(pressed):
-    global imageNum, randomMode, numImages
+    global imageNum, sequenceMode, numImages
     if pressed:
         if imageNum > 1:
-            randomMode=False
+            sequenceMode=False
             imageNum=imageNum-1
         else:
             if imageNum == 1:
@@ -123,10 +123,10 @@ def btn_left(pressed):
         display()
 
 def btn_right(pressed):
-    global numImages, imageNum, randomMode
+    global numImages, imageNum, sequenceMode
     if pressed:
         if imageNum < numImages:
-            randomMode=False
+            sequenceMode=False
             imageNum=imageNum+1
         else:
             if imageNum == numImages:
@@ -152,10 +152,10 @@ def btn_select(pressed):
 bgcolor=ugfx.WHITE
 fgcolor=ugfx.BLACK
 font="PermanentMarker22"
-delay=30
+delay=4
 
 #random Mode means it reloads the an image randomly every delay seconds
-randomMode=False
+sequenceMode=False
 
 #If set to true will loop through images (or randomly choose if above is set) - if set to false will stay on the image
 reloadMode=False
