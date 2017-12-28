@@ -44,7 +44,7 @@ def display():
         if sequenceMode is True:
             #stop the doubles
             newImageNum = random.randint(1,numImages)
-            while newImageNum != imageNum:
+            while newImageNum == imageNum:
                 newImageNum = random.randint(1,numImages)
             imageNum = newImageNum
         else:
@@ -98,7 +98,7 @@ def btn_up(pressed):
     global numImages, imageNum, sequenceMode, reloadMode
     if pressed:
         sequenceMode=True
-        reloadMode=True #random mode is useless if your not in reload mode
+        reloadMode=True #sequence mode is useless if not in reload mode
         newImageNum = imageNum+1
         if newImageNum > numImages:
             newImageNum= 1
@@ -113,9 +113,9 @@ def btn_down(pressed):
 
 def btn_left(pressed):
     global imageNum, sequenceMode, numImages
+    sequenceMode=False
     if pressed:
         if imageNum > 1:
-            sequenceMode=False
             imageNum=imageNum-1
         else:
             if imageNum == 1:
