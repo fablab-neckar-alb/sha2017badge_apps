@@ -125,12 +125,10 @@ def btn_left(pressed):
 def btn_right(pressed):
     global numImages, imageNum, sequenceMode
     if pressed:
-        if imageNum < numImages:
-            sequenceMode=False
-            imageNum=imageNum+1
-        else:
-            if imageNum == numImages:
-                imageNum=1
+        sequenceMode=False
+	imageNum=imageNum+1
+        if imageNum > numImages:
+            imageNum=1
         display()
 
 def btn_start(pressed):
